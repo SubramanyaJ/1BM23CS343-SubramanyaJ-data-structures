@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-
+#include <stdbool.h>
 #define MAX 10
 
 int queue[MAX];
@@ -25,10 +25,9 @@ void addQueue(int element){
 	}
 		
 	queue[++front] = element;
-	return;
 }
 
-int deQueue(){
+int deQueue(void){
 	
 	if(back == front){
 		fprintf(stderr, "Queue is empty!\n");
@@ -39,28 +38,45 @@ int deQueue(){
 
 }
 
+void displayQueue(void){
+	if(back == front){
+		fprintf(stderr, "Queue is empty!\n");
+		return;
+	}
+
+	for(int i = back + 1; i <= front; i++){
+		printf("%d ", queue[i]);
+	}
+}
 
 int main(){
 	
-	int case = 0;
+	int casev = 0;
 	int value = 0;
 	while(true){
-		
-		switch (case){
+		printf("Enter an option :\n1. Add to queue\n2. Delete from queue\n3. Display queue\n4. Quit");
+		scanf("%d", &casev);
+		switch (casev){
 		case 1: 
-			printf("Enter a number to queue.\n");
+			printf("Enter value\n");
 			scanf("%d", &value);
 			addQueue(value);
 			break;
 		case 2:
 			value = deQueue(); 
-			printf("The deQueue'd value is %d.\n", value);
+			printf("%d was returned\n", value);
+			break;
 		case 3:
-			return 0;
+			displayQueue();
+			break;
 		case 4:
-			printf("Unknown option! Try again!\n");
+			return 0;
 
-		}
-	}
-	return 0;
-}
+		case 5:
+			printf("Invalid option!\n");
+			break;
+
+		}	// End of switch block
+	}		// End of while block
+	return 0;	
+}			// End of main(), program
