@@ -157,27 +157,38 @@ void push(struct Node **stackhead, int value){
     ptr->next = newNode(value);
 }
 
-int pop(struct Node **stackhead){
-    struct Node *stack = *stackhead;
-    if(!stack){
-        printf("Queue is empty!\n");
+int pop(struct Node **stackheadref){
+    struct Node *stackhead = *stackheadref;
+    if(!stackhead){
+        printf("The stack is empty!\n");
         return -1;
     }
-    int temp = stack->data;
-    struct Node *nextnode = stack->next;
-    free(stack);
-    *stackhead = nextnode;
-    return temp;
+    if((stackhead->next) == NULL){
+        int retval = stackhead->data;
+        free(stackhead);
+        stackhead = NULL;
+        *stackheadref = NULL;
+        return retval;
+    }
+    struct Node *ptr = stackhead;
+    while(ptr->next->next){
+        ptr = ptr->next;
+    }
+    int retval = ptr->next->data;
+    free(ptr->next);
+    ptr->next = NULL;
 
+    return retval;
 }
 
 int main(){
 
-    struct Node *head = NULL; //newNode(0);
+    struct Node *head = newNode(0);
+    printf("%p is head\n", head);
     int choice = 0, data = 0;
 
     while(true){
-        printf("Enter a choice :\n1. Enqueue\n2. Dequeue\n3. Display\n4. Exit\n");
+        printf("Enter a choice :\n1. Push\n2. Pop\n3. Display\n4. Exit\n");
         scanf("%d", &choice);
         switch (choice) {
             case 1:

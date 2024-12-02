@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <string.h>
-
-#define A perror("")
 
 struct Node{
     int data;
@@ -66,7 +63,6 @@ struct Node *randomgen(){
 }
 
 void display(struct Node *head){
-    if(!head){return;}
     struct Node *ptr = head;
     while(ptr){
         printf("%d at %p\n", ptr->data, ptr);
@@ -144,61 +140,21 @@ void concatenate(struct Node *head1, struct Node *head2){
     ptr->next = head2;
 }
 
-// Stack operations
-void push(struct Node **stackhead, int value){
-    if(!*stackhead){
-        *stackhead = newNode(value);
-        return;
-    }
-    struct Node *ptr = *stackhead;
-    while(ptr->next){
-        ptr = ptr->next;
-    }
-    ptr->next = newNode(value);
-}
-
-int pop(struct Node **stackhead){
-    struct Node *stack = *stackhead;
-    if(!stack){
-        printf("Queue is empty!\n");
-        return -1;
-    }
-    int temp = stack->data;
-    struct Node *nextnode = stack->next;
-    free(stack);
-    *stackhead = nextnode;
-    return temp;
-
-}
-
 int main(){
+    //    struct Node *head = randomgen();
+    struct Node *head = randomgen();
 
-    struct Node *head = NULL; //newNode(0);
-    int choice = 0, data = 0;
+    display(head);
 
-    while(true){
-        printf("Enter a choice :\n1. Enqueue\n2. Dequeue\n3. Display\n4. Exit\n");
-        scanf("%d", &choice);
-        switch (choice) {
-            case 1:
-                printf("Enter a value to push: ");
-                scanf("%d", &data);
-                push(&head, data);
-		break;
-            case 2:
-                data = pop(&head);
-                printf("Popped value : %d\n", data);
-                printf("%p is head\n", head);
-		break;
-	    case 3:
-                display(head);
-		break;
-            case 4:
-                return 0;
-            default:
-                printf("Invalid option!\n");
-        }		
-    }
+    sort(head);
+    display(head);
 
-    return 0;
+    head = reverse(head);
+    display(head);
+
+    struct Node *head2 = randomgen();
+    display(head2);
+    concatenate(head, head2);
+    display(head);
+
 }
