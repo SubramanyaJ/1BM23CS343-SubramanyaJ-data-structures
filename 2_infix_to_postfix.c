@@ -1,97 +1,112 @@
-/*
-WAP to convert a given valid parenthesized infix arithmetic 
-expression to postfix expression. The expression consists of 
-single character operands and the binary operators + (plus), - (minus), * (multiply) and / (divide) 
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 
-int prec(char c){
-    if(c == '-' || c == '+'){
-        return 1;
-    }
-    if(c == '*' || c == '/'){
-        return 2;
-    }
-    if(c == '!' || c == '~'){
-        return 1;
-    }
-    return -1;
+#define MAX 10
+int stack[MAX];
+int top = -1;
+
+bool isEmpty(){
+    if(top == -1){
+        return true;
+    }   return false;
+}
+bool isFull(){
+    return top == (MAX-1);
 }
 
-char assoc(char c){
-    if(c == '!'|| c == '~'){
+void push(int value){
+    if(isFull()){
+        return;
+    }
+    stack[++top] = value;
+}
+
+int pop(){
+    if(isEmpty()){
+        return -1;
+    }
+    return stack[top--];
+}
+
+int getPrecedence(char ch){
+    switch (ch){
+        case '^':
+            return 2;
+        case '*':
+        case '/':
+        case '%':
+            return 1;
+        case '+':
+        case '-':
+        return 0;
+    }
+}
+
+char getAssociativity(char ch){
+    if(ch == '^'){
         return 'R';
-    }
-    else{
-        return 'L';
-    }
+    }   return 'L';
 }
 
-void infixToPostfix(char *set){
-    int len = strlen(set);
+void *infixToPostfic(char * str){
 
-    char result = (char *) malloc(sizeof(char)(len+1));
-    char stack = (char *) malloc(sizeof(char)(len));
-
-    int resultIndex = 0;
-    int stackIndex = -1;
+    char res[MAX], stk[MAX];
+    int rptr = -1;
+    int sptr = -1;
+    int len = strlen(str);
 
     for(int i = 0; i < len; i++){
-
-        char c = set[i];
-
-        if( c >= 'a' && c <= 'z' ||
-            c >= 'A' && c <= 'Z' ||
-            c >= '0' && c <= '9'
+        char ch = str[i];
+        
+        if(         // Case 1 : an operand
+            ch >= 'a' && ch <= 'z'
+            || ch >= 'A' && ch <= 'Z'
+            || ch >= '0' && ch <= '9'
         ){
-            result[resultIndex++] = c;
+            res[++rptr] = ch;
         }
 
-        else if(c == '('){
-            stack[++stackIndex] = c;
+        else if(    // Case 2 : (
+            ch == '('
+        ){
+            stk[++sptr] = ch;
         }
-
-        else if(c == ')'){
-            while(( stackIndex >= 0 && 
-                    stack[stackIndex] != '(')){
-                        result[resultIndex++] = stack[stackIndex--];
-            }
-            stackIndex--;
+        else if(    // Case 3 : )
+            ch == ')'
+        ){
+            while(sptr != -1 | stk[sptr] != '('){
+                res[++rptr] = str[sptr--];
+            }   sptr--;
         }
-
-        else{
-
+        else{       // Case 4 : Operand
             while(
-                (stackIndex >= 0 && (prec(c) <= prec(stack[stackIndex]))) ||
-                (prec(c) == prec(stack[stackIndex]) && assoc(c) == 'L')
+                sptr >= 0 && getPrecedence(ch) < getPrecedence(stk[sptr])
+                || sptr >= 0 && getPrecedence(ch) == getPrecedence(stk[sptr]) && getAssociativity(ch) == 'L'
             ){
-                result[resultIndex++] = stack[stackIndex--];
-            }
-            stack[++stackIndex] = c;
-
+                    res[++rptr] = stk[sptr--];
+            }       stk[++sptr] = ch;   
         }
 
     }
-
-
-
-    while(stackIndex >= 0){
-        result[resultIndex++] = stack[stackIndex--];
+    while(sptr >= 0){
+        res[++rptr] = stk[sptr--];
     }
+    res[++rptr] = '\0';
 
-    result[resultIndex] = '\0';
-    puts(result);
-    free(result);
-    free(stack);
+    puts(res);
 
 }
 
 int main(){
+
+    char ch[MAX];
+    printf("Enter your expression :\n");
+    fgets(ch, MAX, stdin);
     
-    char exp[] = "a+b*c/d";
-    infixToPostfix(exp);
+    printf("Postfix expression is : \n");
+    infixToPostfic(ch);
+    
     return 0;
 }

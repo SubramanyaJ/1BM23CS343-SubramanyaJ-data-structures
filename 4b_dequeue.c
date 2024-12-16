@@ -9,6 +9,12 @@ int back = -1;
 int front = -1;
 int value;
 
+void display(){
+    for(int i = back; back < front; i++){
+        printf("%d ", dequeue[i]);
+    }
+}
+
 bool isEmpty(){
     if(front == -1){
         return true;
@@ -91,3 +97,52 @@ int deleteRear(){
     return retval;
 
 }
+
+int main(){
+
+	int casev = 0;
+	int value = 0;
+
+	while(true){
+	
+                printf("Enter an option :\n1. InsertFront\n2. InsertRear\n3. DeleteEnd\n4. DeleteFront\n5. Display\n6. Exit");
+
+		scanf("%d", &casev);
+	
+		switch(casev){
+			
+			case 1:
+				printf("Enter value : ");
+				scanf("%d", &value);
+				insertFront(value);
+				break;
+                        case 2:
+				printf("Enter value : ");
+				scanf("%d", &value);
+				insertRear(value);
+				break;
+                                
+			case 3:
+				value = deleteRear();
+				printf("Returned value is %d\n", value);
+				break;
+			case 4:
+				value = deleteFront();
+				printf("Returned value is %d\n", value);
+				break;
+			case 5:
+                                display();
+				break;
+                        case 6:
+                                return 0;
+			default:
+				printf("Invalid option!\n");
+				break;
+	
+			
+		}	// End of switch case
+		
+
+	}		// End of while-true
+	return 0;
+}	// End of main

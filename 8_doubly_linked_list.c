@@ -118,7 +118,7 @@ int main(){
             case 6:
                 return 0;
             default:
-                printf("Invalid option!");
+                printf("Invalid option!\n");
         }
     }
     return 0;

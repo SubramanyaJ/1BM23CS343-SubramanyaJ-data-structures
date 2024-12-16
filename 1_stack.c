@@ -81,7 +81,7 @@ int main(){
 		case 5:
 			break;
 		deafult:
-			print("Invalid option!\n");
+			printf("Invalid option!\n");
 		}
 	}
 	return 0;

@@ -54,7 +54,7 @@ int main(){
 	int casev = 0;
 	int value = 0;
 	while(true){
-		printf("Enter an option :\n1. Add to queue\n2. Delete from queue\n3. Display queue\n4. Quit");
+		printf("Enter an option :\n1. Add to queue\n2. Delete from queue\n3. Display queue\n4. Quit\n");
 		scanf("%d", &casev);
 		switch (casev){
 		case 1: 
