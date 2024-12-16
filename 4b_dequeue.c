@@ -10,6 +10,9 @@ int front = -1;
 int value;
 
 void display(){
+    if(back == front){
+	printf("Dequeue is empty\n");
+    }
     for(int i = back; back < front; i++){
         printf("%d ", dequeue[i]);
     }
@@ -105,7 +108,7 @@ int main(){
 
 	while(true){
 	
-                printf("Enter an option :\n1. InsertFront\n2. InsertRear\n3. DeleteEnd\n4. DeleteFront\n5. Display\n6. Exit");
+                printf("Enter an option :\n1. InsertFront\n2. InsertRear\n3. DeleteEnd\n4. DeleteFront\n5. Display\n6. Exit\n");
 
 		scanf("%d", &casev);
 	

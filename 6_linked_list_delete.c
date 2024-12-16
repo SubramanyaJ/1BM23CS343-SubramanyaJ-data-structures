@@ -10,7 +10,7 @@ struct Node{
 
 struct Node *newNode(int value){
 	struct Node *new = (struct Node *) malloc(sizeof(struct Node));
-	memset(new, 0, sizeof(new));
+	memset(new, 0, sizeof(struct Node));
 
 	new->data = value;
 	new->next = NULL;
@@ -33,19 +33,24 @@ void insertEnd(struct Node *head, int value){
 }	// Inserts at beginning
 	
 void displayData(struct Node *head){
+	if(!head){
+		printf("Linked list empty!\n");
+		return;
+	}
 	struct Node *ptr;
 	for(ptr = head; ptr->next != NULL; ptr = ptr->next){
-		printf("%d at %p", ptr->data, ptr);
-	}	printf("%d at %p", ptr->data, ptr);
+		printf("%d at %p\n", ptr->data, ptr);
+	}	printf("%d at %p\n", ptr->data, ptr);
 	}	//	Display
 	
 struct Node *naturalHelper(int num){
-	struct Node *ptr = newNode(0);
+	struct Node *head = newNode(0);
+	struct Node *ptr = head;
 	for(int i = 1; i < num; i++){
 		ptr->next = newNode(i);
 		ptr = ptr->next;
 	}
-	return ptr;
+	return head;
 }
 
 struct Node *deleteStart(struct Node *head){
@@ -79,8 +84,7 @@ int main(){
 	int val = 0;
 	struct Node *head;
 	while(true){
-		printf("Enter a choice : \n");
-		printf("1. Create a linked list of size n\n2. Insert at end\n4. Display\n5.Exit");
+		printf("Enter your choice :\n1. Create a linked list of size n\n2. deleteStart\n3. deleteEnd\n4. display\n5. Exit\n");
 		scanf("%d", &choice);
 		switch (choice){
 			case (1):
@@ -89,14 +93,10 @@ int main(){
 				head = naturalHelper(val);
 				break;
 			case (2):
-				printf("Enter value : ");
-				scanf("%d", &val);
-				head = insertStart(head, val);
+				head = deleteStart(head);
 				break;
 			case (3):
-				printf("Enter value : ");
-				scanf("%d", &val);
-				insertEnd(head, val);
+				deleteEnd(head);
 				break;
 			case (4):
 				displayData(head);

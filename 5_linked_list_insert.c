@@ -33,6 +33,10 @@ void insertEnd(struct Node *head, int value){
 }	// Inserts at beginning
 	
 void displayData(struct Node *head){
+	if(!head){
+		printf("Empty linked list!\n");
+		return;
+	}
 	struct Node *ptr;
 	for(ptr = head; ptr->next != NULL; ptr = ptr->next){
 		printf("%d at %p\n", ptr->data, ptr);

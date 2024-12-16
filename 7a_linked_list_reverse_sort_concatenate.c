@@ -143,18 +143,22 @@ void concatenate(struct Node *head1, struct Node *head2){
 int main(){
     //    struct Node *head = randomgen();
     struct Node *head = randomgen();
-
+    printf("Initially, the list is : \n");
     display(head);
 
     sort(head);
+    printf("Sorted list : \n");
     display(head);
 
     head = reverse(head);
+    printf("Reversed list : \n");
     display(head);
 
     struct Node *head2 = randomgen();
+    printf("A second list is : \n");
     display(head2);
     concatenate(head, head2);
+    printf("The concatenated list is : \n");
     display(head);
 
 }
